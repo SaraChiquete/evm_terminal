@@ -9,15 +9,20 @@ import interface.bitacoras.fBitacora as Fbitacoras
 import interface.vehiculos.Menu as _Vehiculos
 #from controllers import fVehiculo
 
+from interface.vehiculos import fVehiculo
+
 from db.conn import conn
 miConn = conn()
 #from interface.observacionymantenimiento import menu
 from interface.observacionymantenimiento import fMantenimiento
 from interface.observacionymantenimiento import fObservacion
 #from interface.observacionymantenimiento import val
-
+from interface.vehiculos import Menu as menuv
+from interface.solicitudes import Menu as menus
 import interface.Menu as Menu
 import interface.Val as Val
+
+from interface.solicitudes import fSolicitudes
 
 from utils.limpiar import limpiar
 
@@ -48,24 +53,22 @@ while True and opc1 != 9:
                         print("   Saliendo...")
                         break
 
-    #    case 2:
-    #        opc12 = 100
-#
- #           while opc12 != 5:
-  #              opc12 = Val._SelectMenu("    Opcion: ", _Vehiculos.menuVehiculos,
-   #                                     1, 6)
-    #            match opc12:
-     #               case 1:
-      #                  fVehiculo.listarVehiculos()
-       #             case 2:
-        #                fVehiculo.SolicitarDatos()
-         #           case 3:
-          #              fVehiculo.modificarMatricula()
-          #          case 4:
-          #              fVehiculo.borrarVehiculo()
-          #          case 5:
-          #              print("   Saliendo...")
-          #              break
+        case 2:
+            opc2 = 0
+            while opc2 != 5:
+                opc2 = Val.vOpciones("Ingrese una opción: ", 1, 5, menuv.menuVehiculos)
+
+                match opc2:
+                    case 1:
+                        fVehiculo.listarVehiculos()
+                    case 2:
+                        fVehiculo.SolicitarDatos()
+                    case 3:
+                        fVehiculo.modificarMatricula()
+                    case 4:
+                        fVehiculo.borrarVehiculo()
+                    case 5:
+                        print("Regresando...")
 
 
         case 3:
@@ -93,6 +96,22 @@ while True and opc1 != 9:
         case 5: # OBSERVACIONES
     # Llama al submenú completo de observaciones
             fObservacion.menuObservaciones()
+        
+        case 6:
+            opc2 = 0
+            opc2 = Val.vOpciones("Ingrese una opción: ", 1, 5, menus.menuSolicitudes)
+
+            match opc2:
+                case 1:
+                    fSolicitudes.listarSolicitudes()
+                case 2:
+                    fSolicitudes.SolicitarDatos()
+                case 3:
+                    fSolicitudes.modificarAsuntoSolicitud()
+                case 4:
+                    fSolicitudes.modificarEstadoSolicitud()
+                case 5:
+                    print("Regresando...")
         
         case 9:
             print("   Saliendo...")

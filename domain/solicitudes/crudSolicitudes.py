@@ -1,11 +1,12 @@
 from db.connV import conn
-from db.ConnB import Conn
-from utils.log import log
+from domain.solicitudes.ClaseSolicitudes import Solicitud
+from domain.solicitudes import crudSolicitudes
+from datetime import timedelta
 
 
 def listarSolicitudes():
-    log("[CRUD SOLICITUDES]: Función -> Listar")
-    miConn = Conn()
+
+    miConn = conn()  
 
     comando = """
     SELECT 
@@ -15,12 +16,14 @@ def listarSolicitudes():
         s.fechaSolicitada AS Fecha,
         s.vehiculo AS Vehiculo, 
         ve.matricula,
-        es.numero AS edo_solicitud_codigo,
         es.descripcion AS edo_solicitud,
-        s.solicitante AS Solicitante, 
-        eso.nombrePila AS nombre_solicitante,
-        s.autorizador AS Autorizador,
-        ea.nombrePila AS nombre_autorizador
+
+        eso.numero AS id_solicitante,
+        CONCAT(eso.nombrePila, ' ', eso.apdPaterno) AS solicitante,
+
+        ea.numero AS id_autorizador,
+        CONCAT(ea.nombrePila, ' ', ea.apdPaterno) AS autorizador
+
     FROM solicitud AS s
     INNER JOIN edo_solicitud AS es ON s.edo_solicitud = es.numero
     INNER JOIN empleado AS eso ON s.solicitante = eso.numero
@@ -29,15 +32,32 @@ def listarSolicitudes():
     ORDER BY ID;
     """
 
-    log("[CRUD SOLICITUDES]: Obteniendo datos...")
     lista = miConn.lista(comando)
-    log("[CRUD SOLICITUDES]: Datos obtenidos.")
+
+    print("\n--- LISTADO DE SOLICITUDES ---")
 
     if not lista:
-        log("[CRUD SOLICITUDES]: No hay solicitudes.")
+        print("No hay solicitudes registradas.")
         return []
 
+    print(f"{'ID':<5} {'Asunto':<30} {'Hora':<10} {'Fecha':<12} {'Vehículo':<15} {'Matrícula':<12} {'Estado':<15} {'ID Sol':<7} {'Solicitante':<22} {'ID Aut':<7} {'Autorizador':<22}")
+    print("-" * 160)
+
+    for fila in lista:
+        (ID, asunto, hora, fecha, vehiculo, matricula,
+         edo_desc, id_sol, solicitante, id_aut, autorizador) = fila
+
+        print(f"{ID:<5} {asunto:<30} {str(hora):<10} {str(fecha):<12} {vehiculo:<15} {matricula:<12} {edo_desc:<15} "
+              f"{id_sol:<7} {solicitante:<22} {id_aut:<7} {autorizador:<22}")
+
+    print("-" * 160)
+
     return lista
+
+
+
+
+
 
 def agregarSolicitud(nuevaSolicitud):
     obj = nuevaSolicitud
@@ -51,14 +71,19 @@ def agregarSolicitud(nuevaSolicitud):
         '{obj.get_fechaSolicitud()}',
         '{obj.get_horaSolicitud()}',
         '{obj.get_vehiculo()}',
-        '{obj.get_solicitante()}',
-    )
+        '{obj.get_solicitante()}'
+    );
     """
 
     lastid = miConn.registrar(comando)
-    log(f"[CRUD SOLICITUDES]: Solicitud agregada ID -> {lastid}")
+
+    if lastid:
+        print(f"\nSolicitud agregada correctamente con ID: {lastid}\n")
+    else:
+        print("\nERROR: No se pudo agregar la solicitud.\n")
 
     return lastid
+
 
 def estadoSolicitud(existeSolicitud):
     obj = existeSolicitud
@@ -73,20 +98,27 @@ def estadoSolicitud(existeSolicitud):
     contador = miConn.actualizar(comando)
 
     if contador == 1:
-        log("[CRUD SOLICITUDES]: Estado actualizado correctamente.")
+        print("\nEstado actualizado correctamente.\n")
     elif contador == 0:
-        log("[CRUD SOLICITUDES]: Solicitud no encontrada.")
+        print("\nLa solicitud no existe.\n")
     else:
-        log("[CRUD SOLICITUDES]: Error modificando estado.")
+        print("\nERROR actualizando estado de solicitud.\n")
 
 
 def actualizar_matricula(id_vehiculo, nueva_matricula):
-    print(f"[CRUD] Actualizando id={id_vehiculo} con matrícula={nueva_matricula}")
-    #db.execute("UPDATE vehiculos SET matricula=? WHERE id=?", (nueva_matricula, id_vehiculo))
-        
-def eliminarSolicitud(numero):
-    comando = f"DELETE FROM solicitud WHERE numero = {numero};"
-    from db.connV import conn
-    miConn = conn()
-    miConn.actualizar(comando)
+    print(f"\nActualizando id={id_vehiculo} con matrícula={nueva_matricula}")
+    # Aquí va tu update real si lo deseas
 
+
+def eliminarSolicitud(numero):
+    miConn = conn()
+    comando = f"DELETE FROM solicitud WHERE numero = {numero};"
+
+    contador = miConn.actualizar(comando)
+
+    if contador == 1:
+        print("\nSolicitud eliminada correctamente.\n")
+    elif contador == 0:
+        print("\nSolicitud no encontrada.\n")
+    else:
+        print("\nERROR eliminando la solicitud.\n")
