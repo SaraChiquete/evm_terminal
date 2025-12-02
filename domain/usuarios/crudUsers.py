@@ -264,12 +264,15 @@ def Delete(oldUser):
         miConn.conexion.commit()
         if cursor.rowcount > 0:
             print(f"Empleado {objUser.get_numEmpleado()} desactivado correctamente.")
+            input("\n   Presione ENTER para continuar...")
             return True
         else:
             print(f"No se encontró empleado {objUser.get_numEmpleado()}.")
+            input("\n   Presione ENTER para continuar...")
             return False
     except Exception as e:
         print("Error:", e)
+        input("\n   Presione ENTER para continuar...")
         return False
 
 
@@ -393,7 +396,8 @@ def registrarLicencia(numEmpleado):
     print("\n  Registro de Licencia de Chofer ")
 
     licencias()
-    opcLic = val._IntRange("   Ingrese una opción de Licencia: ", 1, 5)
+    opcLic = val._IntRange("    Ingrese una opción de Licencia: ", 1, 5)
+    print()
 
     match opcLic:
         case 1:
@@ -412,13 +416,14 @@ def registrarLicencia(numEmpleado):
             codigoLic = "E"
             descripcionLic = "Servicios especializados y carga"
 
-    print(f"   Seleccionó la licencia {codigoLic} ({descripcionLic})\n")
+    print(f"    Seleccionó la licencia {codigoLic} ({descripcionLic})\n")
 
     while True:
-        numeroLic = input("   Ingrese el número de licencia: ")
+        numeroLic = input("    Ingrese el número de licencia: ")
+        print()
         if val.valLicencia(numeroLic):
             break
-        print("   ERROR: Número de licencia inválido.\n")
+        print("    ERROR: Número de licencia inválido.\n")
 
     exp = val.val_exp()
     ven = val.val_ven(exp)
@@ -453,7 +458,7 @@ def registrarLicencia(numEmpleado):
 
     miConn.conexion.commit()
 
-    print("\n   Licencia de chofer registrada correctamente.\n")
+    print("\n    Licencia de chofer registrada correctamente.\n")
     return True
 
 
@@ -477,18 +482,25 @@ def mostrar_choferes(conexion):
     cursor.execute(query)
     resultados = cursor.fetchall()
 
-    print("\n=== LISTA DE CHOFERES ===\n")
+    print("\n    * LISTA DE CHOFERES *\n")
 
     if len(resultados) == 0:
-        print(" No hay choferes registrados.")
+        print("     No hay choferes registrados.")
+        print()
     else:
         for fila in resultados:
-            print(f"Nombre: {fila[0]}")
-            print(f"Tipo de empleado: {fila[1]}")
-            print(f"Número de licencia: {fila[2]}")
-            print(f"Clase de licencia: {fila[3]}")
-            print(f"Fecha de expedición: {fila[4]}")
-            print(f"Fecha de vencimiento: {fila[5]}")
+            print(f"     Nombre: {fila[0]}")
+            print()
+            print(f"     Tipo de empleado: {fila[1]}")
+            print()
+            print(f"     Número de licencia: {fila[2]}")
+            print()
+            print(f"     Clase de licencia: {fila[3]}")
+            print()
+            print(f"     Fecha de expedición: {fila[4]}")
+            print()
+            print(f"     Fecha de vencimiento: {fila[5]}")
+            print()
             print("-" * 40)  # separador limpio
 
     cursor.close()
@@ -510,16 +522,21 @@ def empleados_contactos(conexion):
     cursor.execute(query)
     resultados = cursor.fetchall()
 
-    print("\n=== LISTA DE EMPLEADOS Y SUS CONTACTOS ===\n")
+    print("\n     * LISTA DE EMPLEADOS Y SUS CONTACTOS *\n")
 
     if len(resultados) == 0:
-        print(" No hay empleados registrados.")
+        print("    No hay empleados registrados.")
+        print()
     else:
         for fila in resultados:
-            print(f"Numero de Empleado: {fila[0]}")
-            print(f"Nombre: {fila[1]}")
-            print(f"Correo Electronico: {fila[2]}")
-            print(f"Numero Telefonico: {fila[3]}")
+            print(f"     Numero de Empleado: {fila[0]}")
+            print()
+            print(f"     Nombre: {fila[1]}")
+            print()
+            print(f"     Correo Electronico: {fila[2]}")
+            print()
+            print(f"     Numero Telefonico: {fila[3]}")
+            print()
             print("-" * 40)
 
     cursor.close()
@@ -529,54 +546,66 @@ def empleados_contactos(conexion):
 def RegistroLicencias(codigo, descripcion, nombrePila, apdPaterno, apdMaterno, telefono):
     licencias()
     opclicencia = val._IntRange("   Ingrese una la opcion de Licencia correcta: ", 1, 5)
+    print()
     match opclicencia:
         case 1:
             codigoLic = "A"
             print("    Eligio la opcion de licencia " + codigoLic + ".")
+            print()
             descripcionLic = "Automovilista"
         case 2:
             codigoLic = "B"
             print("    Eligio la opcion de licencia " + codigoLic + ".")
+            print()
             descripcionLic = "Taxis y Aplicaciones"
         case 3:
             codigoLic = "C"
             print("    Eligio la opcion de licencia " + codigoLic + ".")
+            print()
             descripcionLic = "Transporte público"
         case 4:
             codigoLic = "D"
             print("    Eligio la opcion de licencia " + codigoLic + ".")
+            print()
             descripcionLic = "Transporte de carga"
         case 5:
             codigoLic = "E"
             print("    Eligio la opcion de licencia " + codigoLic + ".")
+            print()
             descripcionLic = "Servicios especializados y carga"
             print()
     while True:
-        numeroLicencia = input("   Ingrese su numero de licencia: ")
+        numeroLicencia = input("    Ingrese su numero de licencia: ")
         if val.valLicencia(numeroLicencia):
-            print("  Número de licencia válido.")
+            print("    Número de licencia válido.")
+            print()
             break
         else:
             print(
                     "    Licencia inválida. Debe tener el formato: BC + 9 dígitos. Ejemplo: BC060759162"
                 )
+            print()
     exp = val.val_exp()
     ven = val.val_ven(exp)
     while True:
-            password = input("Cree una contraseña: ")
+            password = input("   Cree una contraseña: ")
+            print()
             if val.validate_password(password):
                 password = password.encode('utf-8')
                 hashed = bcrypt.hashpw(password, bcrypt.gensalt())
-                print(" Contraseña Valida")
+                print("     Contraseña Valida")
+                print()
                 break
             else:
-                print(" Contraseña Invalida. Intente de nuevo")
-                print(" La contraseña debe cumplir con los siguientes requisitos para ser válida:")
-                print(" 1. Tener al menos 8 caracteres.")
-                print(" 2. Incluir al menos una letra mayúscula (A-Z).")
-                print(" 3. Incluir al menos una letra minúscula (a-z).")
-                print(" 4. Incluir al menos un número (0-9).")
-    email = val.vEmail("Ingrese su Correo Electronico: ")
+                print("    Contraseña Invalida. Intente de nuevo")
+                print("    La contraseña debe cumplir con los siguientes requisitos para ser válida:")
+                print("    1. Tener al menos 8 caracteres.")
+                print("    2. Incluir al menos una letra mayúscula (A-Z).")
+                print("    3. Incluir al menos una letra minúscula (a-z).")
+                print("    4. Incluir al menos un número (0-9).")
+                print()
+    email = val.vEmail("    Ingrese su Correo Electronico: ")
+    print()
     newTipo = TipoEmpleado(codigo, descripcion)
     newUser = Usuario(None, nombrePila, apdPaterno, apdMaterno, newTipo.get_codigo(), 1, hashed, email)
     newTel = Telefono(None, telefono ,None)

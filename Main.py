@@ -32,7 +32,7 @@ while True and opc1 != 9:
             opc11 = 100
 
             while opc11 != 6:
-                opc11 = Val._SelectMenu("    Opcion: ", _Bitacoras.principal, 1, 6)
+                opc11 = Val._SelectMenu("    Seleccione una opcion: ", _Bitacoras.principal, 1, 6)
                 match opc11:
                     case 1:
                         Fbitacoras.lista()

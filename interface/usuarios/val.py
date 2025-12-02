@@ -7,14 +7,14 @@ def vInt(msg):
         if valor.isdigit():
             return int(valor)
         else:
-            print("   Solo se permiten números enteros. Inténtalo de nuevo.")
+            print("    Solo se permiten números enteros. Inténtalo de nuevo.")
 
 def vInt2(numero):
     while True:
         if numero.isdigit():
             return int(numero)
         else:
-            print("   Solo se permiten números enteros. Inténtalo de nuevo.")
+            print("    Solo se permiten números enteros. Inténtalo de nuevo.")
 
 def vEmail(msg):
     while True:
@@ -24,7 +24,7 @@ def vEmail(msg):
             return email
         else:
             print(
-                "   Ingresa un correo electrónico válido (ejemplo: usuario@dominio.com)."
+                "    Ingresa un correo electrónico válido (ejemplo: usuario@dominio.com)."
             )
 
 
@@ -67,7 +67,7 @@ def _Int(msg: str):
 
     if not opc.isdigit():
         print()
-        print("   Solo numeros enteros.")
+        print("    Solo numeros enteros.")
     elif opc.isdigit():
         return int(opc)
 
@@ -89,25 +89,25 @@ def _IntRange(msg: str, inf: int, sup: int):
 
     if not opc.isdigit():
         print()
-        print("   Solo numeros enteros.")
+        print("    Solo numeros enteros.")
     elif opc.isdigit() and inf <= int(opc) <= sup:
         return int(opc)
     elif opc.isdigit() and int(opc) > sup or int(opc) < inf:
         print()
-        print(f"Fuera de rango. Rango: {inf} - {sup}")
+        print(f"    Fuera de rango. Rango: {inf} - {sup}")
 
 
 def valTelefono():
     while True:
-        telefono = input("   Ingrese su número de teléfono (10 dígitos): ")
+        telefono = input("    Ingrese su número de teléfono (10 dígitos): ")
         pattern = r"^\d{10}$"
         if re.fullmatch(pattern, telefono):
-            print(f"{telefono}: Número válido ")
+            print(f"    {telefono}: Número válido ")
             return telefono  
         else:
-            print(f"{telefono}: Número inválido ")
+            print(f"    {telefono}: Número inválido ")
             print(
-                "   Debe ingresar exactamente 10 dígitos. Intente de nuevo.\n")
+                "     Debe ingresar exactamente 10 dígitos. Intente de nuevo.\n")
 
 
 def validate_password(password):
@@ -146,7 +146,7 @@ def vTexto(msg):
         if valor.isalpha():
             return valor
         else:
-            print("   Solo se permiten letras (sin números ni símbolos).")
+            print("    Solo se permiten letras (sin números ni símbolos).")
 
 
 def vNombre(nombre):
@@ -168,40 +168,40 @@ def vEmail(msg):
         if re.match(patron, email):
             return email
         else:
-            print("Ingresa un correo electrónico válido (ejemplo: usuario@dominio.com).")
+            print("     Ingresa un correo electrónico válido (ejemplo: usuario@dominio.com).")
 
 
 def val_exp():
     while True:
-        fecha_str = input("Fecha de expedición (aaaa-mm-dd): ").strip()
+        fecha_str = input("     Fecha de expedición (aaaa-mm-dd): ").strip()
 
         try:
             fecha = datetime.datetime.strptime(fecha_str, "%Y-%m-%d").date()
 
             if fecha > datetime.date.today():
-                print("   La fecha de expedición no puede ser futura.")
+                print("    La fecha de expedición no puede ser futura.")
                 continue
 
             return fecha
 
         except ValueError:
-            print("   Fecha inválida. Debes usar el formato aaaa-mm-dd (por ejemplo: 2024-03-15).")
+            print("     Fecha inválida. Debes usar el formato aaaa-mm-dd (por ejemplo: 2024-03-15).")
 
 def val_ven(expedicion):
     while True:
-        fecha_str = input("Fecha de vencimiento (aaaa-mm-dd): ").strip()
+        fecha_str = input("     Fecha de vencimiento (aaaa-mm-dd): ").strip()
 
         try:
             fecha = datetime.datetime.strptime(fecha_str, "%Y-%m-%d").date()
 
             if fecha <= expedicion:
-                print("   La fecha de vencimiento debe ser posterior a la fecha de expedición.")
+                print("    La fecha de vencimiento debe ser posterior a la fecha de expedición.")
                 continue
 
             return fecha
 
         except ValueError:
-            print("   Fecha inválida. Debes usar el formato aaaa-mm-dd (por ejemplo: 2028-03-15).")
+            print("     Fecha inválida. Debes usar el formato aaaa-mm-dd (por ejemplo: 2028-03-15).")
 
 
 def _IntRange(msg: str, inf: int, sup: int):
@@ -210,7 +210,7 @@ def _IntRange(msg: str, inf: int, sup: int):
 
         # Validación: solo dígitos
         if not opc.isdigit():
-            print("\n   Solo números enteros.")
+            print("\n    Solo números enteros.")
             continue
 
         opc_int = int(opc)
@@ -219,4 +219,4 @@ def _IntRange(msg: str, inf: int, sup: int):
         if inf <= opc_int <= sup:
             return opc_int
         else:
-            print(f"\n   Fuera de rango. Rango permitido: {inf} - {sup}")
+            print(f"\n    Fuera de rango. Rango permitido: {inf} - {sup}")
