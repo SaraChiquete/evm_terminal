@@ -11,8 +11,7 @@ class Vehiculo:
         self.__capacidad_pasajeros = capacidad_pasajeros
         self.__utilidad = utilidad
         self.__comentarios = comentarios
-        
-        
+
     def __str__(self):
         return f"ID Vehiculo: {self.__id}  Num serie: {self.__num_serie}  Matricula: {self.__matricula}  Marca: {self.__marca}  Modelo: {self.__modelo}  Fecha Adquision: {self.__fecha_adquision} Diponibilidad: {self.__disponibilidad}  Tipo Licencia: {self.__tipo_licencia}"
         

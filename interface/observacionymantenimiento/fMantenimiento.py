@@ -174,8 +174,8 @@ def reporteMantenimientoVehiculo():
         JOIN vehiculo v ON mt.vehiculo = v.numSerie
         JOIN marca ma ON v.marca = ma.codigo
         JOIN modelo mo ON v.modelo = mo.codigo
-        JOIN tipoMantenimiento tm ON mt.tipoMantenimiento = tm.numero
-        JOIN estadoMantenimiento em ON mt.estadoMantenimiento = em.numero
+        JOIN tipo_mantenimiento tm ON mt.tipoMantenimiento = tm.numero
+        JOIN edo_mantenimiento em ON mt.estadoMantenimiento = em.numero
         LEFT JOIN mantenimiento_bitacora mb ON mt.folio = mb.mantenimiento
         LEFT JOIN observacion o ON mb.bitacora = o.bitacora
         LEFT JOIN tipoObservacion tobs ON o.tipoObservacion = tobs.numero
@@ -204,8 +204,8 @@ def estadoMantenimientosVehiculos():
         JOIN vehiculo v ON mt.vehiculo = v.numSerie
         JOIN marca ma ON v.marca = ma.codigo
         JOIN modelo mo ON v.modelo = mo.codigo
-        JOIN tipoMantenimiento tm ON mt.tipoMantenimiento = tm.numero
-        JOIN estadoMantenimiento em ON mt.estadoMantenimiento = em.numero
+        JOIN tipo_mantenimiento tm ON mt.tipoMantenimiento = tm.numero
+        JOIN edo_mantenimiento em ON mt.estadoMantenimiento = em.numero
         ORDER BY mt.fechaProgramada DESC
     """)
     resultados = cursor.fetchall()
@@ -231,7 +231,7 @@ def historialMantenimientosObservaciones():
         JOIN vehiculo v ON mt.vehiculo = v.numSerie
         JOIN marca ma ON v.marca = ma.codigo
         JOIN modelo mo ON v.modelo = mo.codigo
-        JOIN tipoMantenimiento tm ON mt.tipoMantenimiento = tm.numero
+        JOIN tipo_mantenimiento tm ON mt.tipoMantenimiento = tm.numero
         LEFT JOIN mantenimiento_bitacora mb ON mt.folio = mb.mantenimiento
         LEFT JOIN observacion o ON mb.bitacora = o.bitacora
         LEFT JOIN tipoObservacion tobs ON o.tipoObservacion = tobs.numero
