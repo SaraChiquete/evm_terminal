@@ -1,206 +1,244 @@
 from db.connV import conn
-from db.ConnB import Conn
-from domain.vehiculos.ClaseVehiculo import Vehiculo
-from utils.log import log
+from domain.vehiculos import ClaseVehiculo as Vehiculo
 
 def listarVehiculos():
-    log("[CRUD VEHICULO]: Funcion -> Listar vehiculos")
-    miConn = Conn()
-    
-    # Campos que recuperamos
-    # Num serie, matricula, marca
-    comando = """
-    SELECT v.numSerie, v.matricula, m.nombre
-    FROM vehiculo AS v
-    INNER JOIN marca AS m ON v.marca = m.codigo
-    """
-    
-    log("[CRUD VEHICULO]: Obteniendo datos...")
-    lista = miConn.lista(comando)
-    log("[CRUD VEHICULO]: Datos obtenidos.")
-    
-    if not lista:
-        log("[CRUD VEHICULO]: No hay vehiculos.")
-        return []
-    else:
-        if len(lista)>0:
-            log("[CRUD VEHICULO]: Si hay vehiculos.")
-            datos = []
-            for item in lista:
-                datos.append(item)
-                
-            log("[CRUD VEHICULO]: Retornando datos...")
-            return datos
-def obtener_marcas():
-    log("[CRUD VEHICULO]: Funcion -> Listar marcas")
-    miConn = Conn()
-    comando="select * from marca"
-    log("[CRUD VEHICULO]: Obteniendo datos...")
-    lista = miConn.lista(comando)
-    if not lista:
-        log("[CRUD VEHICULO]: No hay vehiculos.")
-        return []
-    else:
-        if len(lista)>0:
-            log("[CRUD VEHICULO]: Si hay vehiculos.")
-            datos = []
-            for item in lista:
-                datos.append(item)
-                
-            log("[CRUD VEHICULO]: Retornando datos...")
-            return datos
-
-def obtener_modelos():
-    log("[CRUD VEHICULO]: Funcion -> Listar marcas")
-    miConn = Conn()
-    comando="select * from modelo"
-    log("[CRUD VEHICULO]: Obteniendo datos...")
-    lista = miConn.lista(comando)
-    if not lista:
-        log("[CRUD VEHICULO]: No hay vehiculos.")
-        return []
-    else:
-        if len(lista)>0:
-            log("[CRUD VEHICULO]: Si hay vehiculos.")
-            datos = []
-            for item in lista:
-                datos.append(item)
-                
-            log("[CRUD VEHICULO]: Retornando datos...")
-            return datos
-        
-def obtener_licencias():
-    log("[CRUD VEHICULO]: Funcion -> Listar marcas")
-    miConn = Conn()
-    comando="select * from tipo_licencia"
-    log("[CRUD VEHICULO]: Obteniendo datos...")
-    lista = miConn.lista(comando)
-    if not lista:
-        log("[CRUD VEHICULO]: No hay vehiculos.")
-        return []
-    else:
-        if len(lista)>0:
-            log("[CRUD VEHICULO]: Si hay vehiculos.")
-            datos = []
-            for item in lista:
-                datos.append(item)
-                
-            log("[CRUD VEHICULO]: Retornando datos...")
-            return datos
-        
-
-                 
-                
-def listaCorta():
     miConn = conn()
     comando = """
-    SELECT 
-        v.numSerie, 
-        ma.nombre as marca,
-        mo.nombre as modelo,
-        v.disponibilidad 
-    FROM vehiculo AS v
-    INNER JOIN marca AS ma ON v.marca = ma.codigo
-    INNER JOIN modelo AS mo ON v.modelo = mo.codigo
-    WHERE v.disponibilidad = TRUE  
+        SELECT numSerie, matricula, proposito, fechaAdquisicion, disponibilidad, 
+               marca, modelo, licencia_requerida 
+        FROM vehiculo
     """
-    
     lista = miConn.lista(comando)
-    vehiculos: list[Vehiculo] = []
-    if not lista:
-        print("No hay vehiculos registrados, para mostrar")
-    else:
-        if len(lista)>0:
-            for fila in lista:
-                vehiculos.append(Vehiculo(0, fila[0], 0, fila[1], fila[2], 0, 0, 0, 0, 0, 0, 0))
     
+    print("\n--- LISTADO DE VEHÍCULOS ---")
+
+    if not lista:
+        print("No hay vehículos registrados.")
+        return []
+
+    # Encabezado formateado
+    print(f"{'NumSerie':<18} {'Matrícula':<12} {'Propósito':<25} {'Fecha Adq.':<12} "
+          f"{'Disponibilidad':<15} {'Marca':<12} {'Modelo':<12} {'Licencia Req.':<15}")
+    print("-" * 120)
+
+    # Filas
+    for numSerie, matricula, proposito, fecha, disponibilidad, marca, modelo, lic_req in lista:
+        
+        # Convertir fecha a string
+        fecha = str(fecha)
+
+        print(f"{numSerie:<18} {matricula:<12} {proposito:<25} {fecha:<12} "
+              f"{disponibilidad:<15} {marca:<12} {modelo:<12} {lic_req:<15}")
+
+    print("-" * 120)
+
     return lista
+
                 
-def agregarVehiculo(objVehiculo):
+def agregarVehiculo(nuevoVehiculo):
     miConn = conn()
 
-    comando = """
-        INSERT INTO vehiculo
+    aux = """
+        INSERT INTO vehiculo 
         (numSerie, matricula, proposito, fechaAdquisicion, disponibilidad,
          marca, modelo, licencia_requerida)
-        VALUES ('{0}', '{1}', '{2}', '{3}', {4}, '{5}', '{6}', '{7}')
-    """.format(
-        objVehiculo.get_num_serie(),
-        objVehiculo.get_matricula(),
-        objVehiculo.get_proposito(),
-        objVehiculo.get_fecha_adquisicion(),
-        objVehiculo.get_disponibilidad(),
-        objVehiculo.get_marca(),
-        objVehiculo.get_modelo(),
-        objVehiculo.get_licencia_requerida()
+        VALUES ('{0}', '{1}', '{2}', '{3}', 1, '{4}', '{5}', '{6}')
+    """
+
+    comando = aux.format(
+        nuevoVehiculo.get_num_serie(),   
+        nuevoVehiculo.get_matricula(),       
+        nuevoVehiculo.get_proposito(),       
+        nuevoVehiculo.get_fecha_adquision(), 
+        nuevoVehiculo.get_marca(),           
+        nuevoVehiculo.get_modelo(),          
+        nuevoVehiculo.get_tipo_licencia(),   
     )
 
-    return miConn.registrar(comando)
+    lastid = miConn.registrar(comando)
+    if lastid:
+        print(" Error al guardar el vehículo.")
+    else:
+        print(" Vehículo guardado exitosamente.")
+
+
+    return lastid
+
+def tipolicencia():
+    miConn = conn()  
+#consulta 3
+    comando = """
+    SELECT 
+        v.matricula AS Matricula, 
+        m.nombre AS Marca, 
+        md.nombre AS Modelo, 
+        v.proposito AS Proposito, 
+        tl.descripcion AS TipoLicencia
+    FROM vehiculo AS v
+    INNER JOIN tipo_licencia AS tl ON v.licencia_requerida = tl.codigo
+    INNER JOIN marca AS m ON m.codigo = v.marca
+    INNER JOIN modelo AS md ON md.codigo = v.modelo;
+    """
+
+    lista = miConn.lista(comando)
+
+    print("\n--- LISTADO DE VEHÍCULOS CON TIPO DE LICENCIA ---")
+
+    if not lista:
+        print("No hay vehículos registrados.")
+        return []
+
+    # Encabezado
+    print(f"{'Matrícula':<12} {'Marca':<15} {'Modelo':<15} {'Propósito':<25} {'Tipo Licencia':<20}")
+    print("-" * 90)
+
+    # Filas
+    for fila in lista:
+        matricula, marca, modelo, proposito, tipo_licencia = fila
+        print(f"{matricula:<12} {marca:<15} {modelo:<15} {proposito:<25} {tipo_licencia:<20}")
+
+    print("-" * 90)
+
+    return lista
+
 
 
 def borrarVehiculo(existeVehiculo):
-    objVehiculo=existeVehiculo
     miConn = conn()
-    aux = "delete from vehiculos where id_vehiculo={0}"
-    comando = aux.format(objVehiculo.get_id())
+
+    comando = f"""
+        UPDATE vehiculo
+        SET disponibilidad = 2
+        WHERE numSerie = '{existeVehiculo.get_num_serie()}'
+    """
+
     contador = miConn.actualizar(comando)
-    if existeVehiculo is False:
-        print("El vehiculo no existe")
-        
-    if contador ==1:
-        print("Vehiculo eliminado correctamente")
-    elif contador ==0:
-        print("Datos del vehiculo no encontrados")
+
+    if contador == 1:
+        print("Vehículo dado de baja correctamente (disponibilidad = 2).")
+    elif contador == 0:
+        print("Vehículo no encontrado.")
     else:
-        print("Error al eliminar el vehiculo")
+        print("Error al actualizar la disponibilidad.")
+
+
+
+
+
         
         
 def modificarVehiculo(existeVehiculo):
-    objVehiculo = existeVehiculo
     miConn = conn()
-    aux = "UPDATE vehiculos SET matricula = '{0}' WHERE id_vehiculo = {1}"
-    comando = aux.format(objVehiculo.get_matricula(), int(objVehiculo.get_id()))
+
+    comando = """
+        UPDATE vehiculo
+        SET matricula = '{0}'
+        WHERE numSerie = '{1}'
+    """.format(
+        existeVehiculo.get_matricula(),
+        existeVehiculo.get_num_serie()
+    )
+
     contador = miConn.actualizar(comando)
-    if existeVehiculo is False:
-        print("El vehiculo no existe")
-        
+
     if contador == 1:
         print("Vehículo modificado correctamente")
     elif contador == 0:
-        print("Datos del vehículo no encontrados")
+        print("Vehículo no encontrado")
     else:
         print("Error al modificar el vehículo")
-        
 
-def actualizar_matricula_por_serie(num_serie, nueva_matricula):
-    """Actualiza la matrícula de un vehículo identificado por su número de serie."""
+ 
+def mostarmarcaymodelo():
     miConn = conn()
-    # Escapar valores básicos; la conexión debe manejar parámetros si está disponible.
-    comando = "UPDATE vehiculo SET matricula = '{0}' WHERE numSerie = '{1}'".format(
-        str(nueva_matricula).replace("'", "''"),
-        str(num_serie).replace("'", "''")
-    )
-    try:
-        contador = miConn.actualizar(comando)
-        return contador
-    except Exception as e:
-        log(f"[CRUD VEHICULO]: Error al actualizar matricula -> {e}")
-        return 0
+
+    comando = """
+        SELECT m.codigo AS CodigoMarca,
+               m.nombre AS Marca,
+               md.codigo AS CodigoModelo,
+               md.nombre AS Modelo
+        FROM marca AS m
+        INNER JOIN modelo AS md ON md.marca = m.codigo
+    """
+    lista = miConn.lista(comando)
+
+    if not lista:
+        print("No hay registros")
+        return
+
+    print(f"{'Codigo':<10} {'Marca':<20} {'Codigo':<12} {'Modelo':<20}")
+    print("-"*65)
+
+    for fila in lista:
+        cod_marca, marca, cod_modelo, modelo = fila
+        print(f"{cod_marca:<10} {marca:<20} {cod_modelo:<12} {modelo:<20}")
+
+    print("-"*65)
+    
+def tipli():
+    miConn = conn()
+    comando = "SELECT tl.codigo, tl.descripcion FROM tipo_licencia AS tl;"
+    
+    lista = miConn.lista(comando)
+
+    if not lista:
+        print("No hay registros")
+        return
+
+    print(f"{'Codigo':<10} {'Descripcion':<30}")
+    print("-"*45)
+
+    for codigo, descripcion in lista:
+        print(f"{codigo:<10} {descripcion:<30}")
+
+    print("-"*45)
+    
+def numsemoma():
+    miConn = conn()
+    comando = "SELECT v.numSerie, v.marca, v.modelo FROM vehiculo AS v;"
+    
+    lista = miConn.lista(comando)
+
+    if not lista:
+        print("No hay registros")
+        return
+
+    print(f"{'NumSerie':<20} {'Marca':<20} {'Modelo':<20}")
+    print("-" * 60)
+
+    for numSerie, marca, modelo in lista:
+        print(f"{numSerie:<20} {marca:<20} {modelo:<20}")
+
+    print("-" * 60)
+
+    
+def nummat():
+    miConn = conn()
+    comando = """
+        SELECT v.numSerie, v.matricula 
+        FROM vehiculo AS v;
+    """
+
+    lista = miConn.lista(comando)
+
+    if not lista:
+        print("No hay registros")
+        return
+
+    print(f"{'NumSerie':<20} {'Matrícula':<20}")
+    print("-" * 40)
+
+    for numSerie, matricula in lista:
+        print(f"{numSerie:<20} {matricula:<20}")
+
+    print("-" * 40)
+
     
 
-def borrar_por_num_serie(num_serie):
-    """Elimina un vehículo de la tabla `vehiculo` por su número de serie.
 
-    Retorna el número de filas afectadas (int) o 0 en error.
-    """
-    miConn = conn()
-    comando = "DELETE FROM vehiculo WHERE numSerie = '{0}'".format(
-        str(num_serie).replace("'", "''")
-    )
-    try:
-        contador = miConn.actualizar(comando)
-        return contador
-    except Exception as e:
-        log(f"[CRUD VEHICULO]: Error al borrar por numSerie -> {e}")
-        return 0
+
+
+    
+
+
     
