@@ -7,6 +7,7 @@ import interface.bitacoras.Menu as _Bitacoras
 import interface.bitacoras.fBitacora as Fbitacoras
 
 import interface.vehiculos.Menu as _Vehiculos
+import interface.vehiculos.fVehiculo as fVehiculo
 #from controllers import fVehiculo
 
 from db.conn import conn
@@ -32,7 +33,7 @@ while True and opc1 != 9:
             opc11 = 100
 
             while opc11 != 6:
-                opc11 = Val._SelectMenu("    Seleccione una opcion: ", _Bitacoras.principal, 1, 6)
+                opc11 = Val._SelectMenu("    Opcion: ", _Bitacoras.principal, 1, 6)
                 match opc11:
                     case 1:
                         Fbitacoras.lista()
@@ -48,24 +49,24 @@ while True and opc1 != 9:
                         print("   Saliendo...")
                         break
 
-    #    case 2:
-    #        opc12 = 100
-#
- #           while opc12 != 5:
-  #              opc12 = Val._SelectMenu("    Opcion: ", _Vehiculos.menuVehiculos,
-   #                                     1, 6)
-    #            match opc12:
-     #               case 1:
-      #                  fVehiculo.listarVehiculos()
-       #             case 2:
-        #                fVehiculo.SolicitarDatos()
-         #           case 3:
-          #              fVehiculo.modificarMatricula()
-          #          case 4:
-          #              fVehiculo.borrarVehiculo()
-          #          case 5:
-          #              print("   Saliendo...")
-          #              break
+        case 2:
+            opc12 = 100
+
+            while opc12 != 5:
+                opc12 = Val._SelectMenu("    Opcion: ", _Vehiculos.menuVehiculos,
+                                        1, 6)
+                match opc12:
+                    case 1:
+                        fVehiculo.listarVehiculos()
+                    case 2:
+                        fVehiculo.SolicitarDatos()
+                    case 3:
+                        fVehiculo.modificarMatricula()
+                    case 4:
+                        fVehiculo.borrarVehiculo()
+                    case 5:
+                        print("   Saliendo...")
+                        break
 
 
         case 3:
@@ -93,7 +94,7 @@ while True and opc1 != 9:
         case 5: # OBSERVACIONES
     # Llama al submenú completo de observaciones
             fObservacion.menuObservaciones()
-
+        
         case 9:
             print("   Saliendo...")
             break
