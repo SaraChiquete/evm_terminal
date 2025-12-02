@@ -3,12 +3,25 @@ from db.conn import conn
 from db.ConnB import Conn
 from domain.mantenimiento.Mantenimiento import Mantenimiento
 
+'''
+Columnas tabla mantenimiento:
+    folio INT PRIMARY KEY AUTO_INCREMENT,
+    razon VARCHAR(200) NOT NULL,
+    estatus VARCHAR(50) NOT NULL,
+    importancia VARCHAR(50) NOT NULL,
+    fechaProgramada DATE NOT NULL,
+    comentarios VARCHAR(300),
+    tipoMantenimiento INT NOT NULL,
+    vehiculo VARCHAR(17) NOT NULL,
+    estadoMantenimiento INT NOT NULL,
+'''
+
 # ----- CREATE -----
 def alta(objMantenimiento):
     miConn = conn()
     comando = """
         INSERT INTO mantenimiento 
-        (Razon, Estatus, Importancia, FechaProgramada, Comentarios, TipoMantenimiento, Vehiculo, EstadoMantenimiento)
+        (razon, estatus, importancia, fechaProgramada, comentarios, tipoMantenimiento, vehiculo, estadoMantenimiento)
         VALUES (%s, %s, %s, %s, %s, %s, %s, %s)
     """
     valores = (
@@ -36,7 +49,7 @@ def lista():
     miConn = Conn()
     
     try:
-        comando = "SELECT folio, razon, fechaProgramada, comentarios, tipo_mantenimiento, vehiculo, edo_mantenimiento FROM MANTENIMIENTO"
+        comando = "SELECT folio, razon, fechaProgramada, comentarios, TipoMantenimiento, vehiculo, EstadoMantenimiento FROM MANTENIMIENTO"
         listado = miConn.lista(comando)
         lista = []
         for fila in listado:

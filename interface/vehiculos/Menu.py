@@ -1,7 +1,12 @@
 def menuVehiculos():
     print("- VEHICULOS -")
+    print("--------------------------------------------")
     print("  1. Listado de vehiculos")
+    print("--------------------------------------------")
     print("  2. Agregar vehiculo")
+    print("--------------------------------------------")
     print("  3. Modificar  matricula de vehiculo")
+    print("--------------------------------------------")
     print("  4. Dar de baja vehiculo")
+    print("--------------------------------------------")    
     print("  5. Salir")

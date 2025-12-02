@@ -7,6 +7,7 @@ import interface.bitacoras.Menu as _Bitacoras
 import interface.bitacoras.fBitacora as Fbitacoras
 
 import interface.vehiculos.Menu as _Vehiculos
+import interface.vehiculos.fVehiculo as fVehiculo
 #from controllers import fVehiculo
 
 from interface.vehiculos import fVehiculo
@@ -30,7 +31,7 @@ limpiar()
 
 opc1 = 100
 while True and opc1 != 9:
-    opc1 = Val._SelectMenu("    Opcion: ", Menu.pricipal, 1, 9)
+    opc1 = Val._SelectMenu("    Seleccione una opción: ", Menu.pricipal, 1, 9)
 
     match opc1:
         case 1:
@@ -54,10 +55,9 @@ while True and opc1 != 9:
                         break
 
         case 2:
-            opc2 = 0 #solicitudes
+            opc2 = 0 
             while opc2 != 5:
                 opc2 = Val.vOpciones("Ingrese una opción: ", 1, 5, menuv.menuVehiculos)
-
                 match opc2:
                     case 1:
                         fVehiculo.listarVehiculos()
@@ -68,16 +68,15 @@ while True and opc1 != 9:
                     case 4:
                         fVehiculo.borrarVehiculo()
                     case 5:
-                        fVehiculo.tipolicencia()
-                    case 6:
-                        print("Regresando...")
+                        print("   Saliendo...")
+                        break
 
 
         case 3:
             opc13 = 100
 
             while opc13 != 6:
-                opc13 = Val._SelectMenu("    Opcion: ", _Usuarios._Usuarios, 1, 6)
+                opc13 = Val._SelectMenu("    Seleccione una opción: ", _Usuarios._Usuarios, 1, 6)
                 match opc13:
                     case 1:
                         fUsuarios.createUser()
