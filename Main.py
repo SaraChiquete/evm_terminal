@@ -93,7 +93,7 @@ while True and opc1 != 9:
         case 5: # OBSERVACIONES
     # Llama al submenú completo de observaciones
             fObservacion.menuObservaciones()
-        
+
         case 9:
             print("   Saliendo...")
             break

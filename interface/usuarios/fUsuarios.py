@@ -17,7 +17,7 @@ conexion = mysql.connector.connect(
 
 
 def createUser():
-    print("    --REGISTRAR USUARIO--")
+    print("     * REGISTRAR EMPLEADO * ")
     while True:
         nombrePila = input("   Ingrese su(s) nombre(s): ")
         if val.vNombre(nombrePila):
@@ -85,113 +85,215 @@ def createUser():
                         descripcionLic = "Automovilista"
                         desMod5 = input("         Es la opcion de licencia correcta?   (s/n): ").strip().lower()
                         if desMod5 != 's':
-                            licencias()
-                            opclicencia = val._IntRange("   Ingrese una la opcion de Licencia correcta: ", 1, 5)
-                            match opclicencia:
-                                case 1:
-                                    codigoLic = "A"
-                                    print("    Eligio la opcion de licencia " + codigoLic + ".")
-                                    descripcionLic = "Automovilista"
-                                case 2:
-                                    codigoLic = "B"
-                                    print("    Eligio la opcion de licencia " + codigoLic + ".")
-                                    descripcionLic = "Taxis y Aplicaciones"
-                                case 3:
-                                    codigoLic = "C"
-                                    print("    Eligio la opcion de licencia " + codigoLic + ".")
-                                    descripcionLic = "Transporte público"
-                                case 4:
-                                    codigoLic = "D"
-                                    print("    Eligio la opcion de licencia " + codigoLic + ".")
-                                    descripcionLic = "Transporte de carga"
-                                case 5:
-                                    codigoLic = "E"
-                                    print("    Eligio la opcion de licencia " + codigoLic + ".")
-                                    descripcionLic = "Servicios especializados y carga"
-                                    print()
-                                    while True:
-                                        numeroLicencia = input("   Ingrese su numero de licencia: ")
-                                        if val.valLicencia(numeroLicencia):
-                                            print("  Número de licencia válido.")
-                                            break
-                                        else:
-                                            print(
-                                                "    Licencia inválida. Debe tener el formato: BC + 9 dígitos. Ejemplo: BC060759162"
-                                            )
-                                    exp = val.val_exp()
-                                    ven = val.val_ven(exp)
-                                    while True:
-                                        password = input("Cree una contraseña: ")
-                                        if val.validate_password(password):
-                                            password = password.encode('utf-8')
-                                            hashed = bcrypt.hashpw(password, bcrypt.gensalt())
-                                            print(" Contraseña Valida")
-                                            break
-                                        else:
-                                            print(" Contraseña Invalida. Intente de nuevo")
-                                            print(" La contraseña debe cumplir con los siguientes requisitos para ser válida:")
-                                            print(" 1. Tener al menos 8 caracteres.")
-                                            print(" 2. Incluir al menos una letra mayúscula (A-Z).")
-                                            print(" 3. Incluir al menos una letra minúscula (a-z).")
-                                            print(" 4. Incluir al menos un número (0-9).")
-                                    email = val.vEmail("Ingrese su Correo Electronico: ")
-                                    newTipo = TipoEmpleado(codigo, descripcion)
-                                    newUser = Usuario(None, nombrePila, apdPaterno, apdMaterno, newTipo.get_codigo(), 1, hashed, email)
-                                    newTel = Telefono(None, telefono ,None)
-                                    newTLic = TipoLicencia(None, codigoLic, descripcionLic)
-                                    newLic = Licencia(numeroLicencia, exp, ven, None, newTLic.get_codigoLic())
-                                    crudUsers.Create(newUser, newTipo, newTel, newTLic, newLic)
-                                    return
+                            crudUsers.RegistroLicencias(codigo, descripcion, nombrePila, apdPaterno, apdMaterno, telefono)
+                            return
+                        else:
+                            print()
+                            while True:
+                                numeroLicencia = input("   Ingrese su numero de licencia: ")
+                                if val.valLicencia(numeroLicencia):
+                                    print("  Número de licencia válido.")
+                                    break
+                                else:
+                                    print(
+                                        "    Licencia inválida. Debe tener el formato: BC + 9 dígitos. Ejemplo: BC060759162"
+                                    )
+                            exp = val.val_exp()
+                            ven = val.val_ven(exp)
+                            while True:
+                                password = input("Cree una contraseña: ")
+                                if val.validate_password(password):
+                                    password = password.encode('utf-8')
+                                    hashed = bcrypt.hashpw(password, bcrypt.gensalt())
+                                    print(" Contraseña Valida")
+                                    break
+                                else:
+                                    print(" Contraseña Invalida. Intente de nuevo")
+                                    print(" La contraseña debe cumplir con los siguientes requisitos para ser válida:")
+                                    print(" 1. Tener al menos 8 caracteres.")
+                                    print(" 2. Incluir al menos una letra mayúscula (A-Z).")
+                                    print(" 3. Incluir al menos una letra minúscula (a-z).")
+                                    print(" 4. Incluir al menos un número (0-9).")
+                            email = val.vEmail("Ingrese su Correo Electronico: ")
+                            newTipo = TipoEmpleado(codigo, descripcion)
+                            newUser = Usuario(None, nombrePila, apdPaterno, apdMaterno, newTipo.get_codigo(), 1, hashed, email)
+                            newTel = Telefono(None, telefono ,None)
+                            newTLic = TipoLicencia(None, codigoLic, descripcionLic)
+                            newLic = Licencia(numeroLicencia, exp, ven, None, newTLic.get_codigoLic())
+                            crudUsers.Create(newUser, newTipo, newTel, newTLic, newLic)
+                            return
                     case 2:
                         codigoLic = "B"
                         print("    Eligio la opcion de licencia " + codigoLic + ".")
                         descripcionLic = "Taxis y Aplicaciones"
+                        desMod5 = input("         Es la opcion de licencia correcta?   (s/n): ").strip().lower()
+                        if desMod5 != 's':
+                            crudUsers.RegistroLicencias(codigo, descripcion, nombrePila, apdPaterno, apdMaterno, telefono)
+                            return
+                        else:
+                            print()
+                            while True:
+                                numeroLicencia = input("   Ingrese su numero de licencia: ")
+                                if val.valLicencia(numeroLicencia):
+                                    print("  Número de licencia válido.")
+                                    break
+                                else:
+                                    print(
+                                        "    Licencia inválida. Debe tener el formato: BC + 9 dígitos. Ejemplo: BC060759162"
+                                    )
+                            exp = val.val_exp()
+                            ven = val.val_ven(exp)
+                            while True:
+                                password = input("Cree una contraseña: ")
+                                if val.validate_password(password):
+                                    password = password.encode('utf-8')
+                                    hashed = bcrypt.hashpw(password, bcrypt.gensalt())
+                                    print(" Contraseña Valida")
+                                    break
+                                else:
+                                    print(" Contraseña Invalida. Intente de nuevo")
+                                    print(" La contraseña debe cumplir con los siguientes requisitos para ser válida:")
+                                    print(" 1. Tener al menos 8 caracteres.")
+                                    print(" 2. Incluir al menos una letra mayúscula (A-Z).")
+                                    print(" 3. Incluir al menos una letra minúscula (a-z).")
+                                    print(" 4. Incluir al menos un número (0-9).")
+                            email = val.vEmail("Ingrese su Correo Electronico: ")
+                            newTipo = TipoEmpleado(codigo, descripcion)
+                            newUser = Usuario(None, nombrePila, apdPaterno, apdMaterno, newTipo.get_codigo(), 1, hashed, email)
+                            newTel = Telefono(None, telefono ,None)
+                            newTLic = TipoLicencia(None, codigoLic, descripcionLic)
+                            newLic = Licencia(numeroLicencia, exp, ven, None, newTLic.get_codigoLic())
+                            crudUsers.Create(newUser, newTipo, newTel, newTLic, newLic)
+                            return
                     case 3:
                         codigoLic = "C"
                         print("    Eligio la opcion de licencia " + codigoLic + ".")
                         descripcionLic = "Transporte público"
+                        desMod5 = input("         Es la opcion de licencia correcta?   (s/n): ").strip().lower()
+                        if desMod5 != 's':
+                            crudUsers.RegistroLicencias(codigo, descripcion, nombrePila, apdPaterno, apdMaterno, telefono)
+                            return
+                        else:
+                            print()
+                            while True:
+                                numeroLicencia = input("   Ingrese su numero de licencia: ")
+                                if val.valLicencia(numeroLicencia):
+                                    print("  Número de licencia válido.")
+                                    break
+                                else:
+                                    print(
+                                        "    Licencia inválida. Debe tener el formato: BC + 9 dígitos. Ejemplo: BC060759162"
+                                    )
+                            exp = val.val_exp()
+                            ven = val.val_ven(exp)
+                            while True:
+                                password = input("Cree una contraseña: ")
+                                if val.validate_password(password):
+                                    password = password.encode('utf-8')
+                                    hashed = bcrypt.hashpw(password, bcrypt.gensalt())
+                                    print(" Contraseña Valida")
+                                    break
+                                else:
+                                    print(" Contraseña Invalida. Intente de nuevo")
+                                    print(" La contraseña debe cumplir con los siguientes requisitos para ser válida:")
+                                    print(" 1. Tener al menos 8 caracteres.")
+                                    print(" 2. Incluir al menos una letra mayúscula (A-Z).")
+                                    print(" 3. Incluir al menos una letra minúscula (a-z).")
+                                    print(" 4. Incluir al menos un número (0-9).")
+                            email = val.vEmail("Ingrese su Correo Electronico: ")
+                            newTipo = TipoEmpleado(codigo, descripcion)
+                            newUser = Usuario(None, nombrePila, apdPaterno, apdMaterno, newTipo.get_codigo(), 1, hashed, email)
+                            newTel = Telefono(None, telefono ,None)
+                            newTLic = TipoLicencia(None, codigoLic, descripcionLic)
+                            newLic = Licencia(numeroLicencia, exp, ven, None, newTLic.get_codigoLic())
+                            crudUsers.Create(newUser, newTipo, newTel, newTLic, newLic)
+                            return
                     case 4:
                         codigoLic = "D"
                         print("    Eligio la opcion de licencia " + codigoLic + ".")
                         descripcionLic = "Transporte de carga"
+                        desMod5 = input("         Es la opcion de licencia correcta?   (s/n): ").strip().lower()
+                        if desMod5 != 's':
+                            crudUsers.RegistroLicencias(codigo, descripcion, nombrePila, apdPaterno, apdMaterno, telefono)
+                            return
+                        else:
+                            print()
+                            while True:
+                                numeroLicencia = input("   Ingrese su numero de licencia: ")
+                                if val.valLicencia(numeroLicencia):
+                                    print("  Número de licencia válido.")
+                                    break
+                                else:
+                                    print(
+                                        "    Licencia inválida. Debe tener el formato: BC + 9 dígitos. Ejemplo: BC060759162"
+                                    )
+                            exp = val.val_exp()
+                            ven = val.val_ven(exp)
+                            while True:
+                                password = input("Cree una contraseña: ")
+                                if val.validate_password(password):
+                                    password = password.encode('utf-8')
+                                    hashed = bcrypt.hashpw(password, bcrypt.gensalt())
+                                    print(" Contraseña Valida")
+                                    break
+                                else:
+                                    print(" Contraseña Invalida. Intente de nuevo")
+                                    print(" La contraseña debe cumplir con los siguientes requisitos para ser válida:")
+                                    print(" 1. Tener al menos 8 caracteres.")
+                                    print(" 2. Incluir al menos una letra mayúscula (A-Z).")
+                                    print(" 3. Incluir al menos una letra minúscula (a-z).")
+                                    print(" 4. Incluir al menos un número (0-9).")
+                            email = val.vEmail("Ingrese su Correo Electronico: ")
+                            newTipo = TipoEmpleado(codigo, descripcion)
+                            newUser = Usuario(None, nombrePila, apdPaterno, apdMaterno, newTipo.get_codigo(), 1, hashed, email)
+                            newTel = Telefono(None, telefono ,None)
+                            newTLic = TipoLicencia(None, codigoLic, descripcionLic)
+                            newLic = Licencia(numeroLicencia, exp, ven, None, newTLic.get_codigoLic())
+                            crudUsers.Create(newUser, newTipo, newTel, newTLic, newLic)
+                            return
                     case 5:
                         codigoLic = "E"
                         print("    Eligio la opcion de licencia " + codigoLic + ".")
                         descripcionLic = "Servicios especializados y carga"
-                print()
-                while True:
-                    numeroLicencia = input("   Ingrese su numero de licencia: ")
-                    if val.valLicencia(numeroLicencia):
-                        print("  Número de licencia válido.")
-                        break
-                    else:
-                        print(
-                            "    Licencia inválida. Debe tener el formato: BC + 9 dígitos. Ejemplo: BC060759162"
-                        )
-                exp = val.val_exp()
-                ven = val.val_ven(exp)
-                while True:
-                    password = input("Cree una contraseña: ")
-                    if val.validate_password(password):
-                        password = password.encode('utf-8')
-                        hashed = bcrypt.hashpw(password, bcrypt.gensalt())
-                        print(" Contraseña Valida")
-                        break
-                    else:
-                        print(" Contraseña Invalida. Intente de nuevo")
-                        print(" La contraseña debe cumplir con los siguientes requisitos para ser válida:")
-                        print(" 1. Tener al menos 8 caracteres.")
-                        print(" 2. Incluir al menos una letra mayúscula (A-Z).")
-                        print(" 3. Incluir al menos una letra minúscula (a-z).")
-                        print(" 4. Incluir al menos un número (0-9).")
-                email = val.vEmail("Ingrese su Correo Electronico: ")
-                newTipo = TipoEmpleado(codigo, descripcion)
-                newUser = Usuario(None, nombrePila, apdPaterno, apdMaterno, newTipo.get_codigo(), 1, hashed, email)
-                newTel = Telefono(None, telefono ,None)
-                newTLic = TipoLicencia(None, codigoLic, descripcionLic)
-                newLic = Licencia(numeroLicencia, exp, ven, None, newTLic.get_codigoLic())
-                crudUsers.Create(newUser, newTipo, newTel, newTLic, newLic)
-                return
+                        desMod5 = input("         Es la opcion de licencia correcta?   (s/n): ").strip().lower()
+                        if desMod5 != 's':
+                            crudUsers.RegistroLicencias(codigo, descripcion, nombrePila, apdPaterno, apdMaterno, telefono)
+                            return
+                        else:
+                            print()
+                            while True:
+                                numeroLicencia = input("   Ingrese su numero de licencia: ")
+                                if val.valLicencia(numeroLicencia):
+                                    print("  Número de licencia válido.")
+                                    break
+                                else:
+                                    print(
+                                        "    Licencia inválida. Debe tener el formato: BC + 9 dígitos. Ejemplo: BC060759162"
+                                    )
+                            exp = val.val_exp()
+                            ven = val.val_ven(exp)
+                            while True:
+                                password = input("Cree una contraseña: ")
+                                if val.validate_password(password):
+                                    password = password.encode('utf-8')
+                                    hashed = bcrypt.hashpw(password, bcrypt.gensalt())
+                                    print(" Contraseña Valida")
+                                    break
+                                else:
+                                    print(" Contraseña Invalida. Intente de nuevo")
+                                    print(" La contraseña debe cumplir con los siguientes requisitos para ser válida:")
+                                    print(" 1. Tener al menos 8 caracteres.")
+                                    print(" 2. Incluir al menos una letra mayúscula (A-Z).")
+                                    print(" 3. Incluir al menos una letra minúscula (a-z).")
+                                    print(" 4. Incluir al menos un número (0-9).")
+                            email = val.vEmail("Ingrese su Correo Electronico: ")
+                            newTipo = TipoEmpleado(codigo, descripcion)
+                            newUser = Usuario(None, nombrePila, apdPaterno, apdMaterno, newTipo.get_codigo(), 1, hashed, email)
+                            newTel = Telefono(None, telefono ,None)
+                            newTLic = TipoLicencia(None, codigoLic, descripcionLic)
+                            newLic = Licencia(numeroLicencia, exp, ven, None, newTLic.get_codigoLic())
+                            crudUsers.Create(newUser, newTipo, newTel, newTLic, newLic)
+                            return
             case 3:
                 codigo = str(random.randint(10000, 99999))
                 descripcion = "Vigilante"
@@ -259,7 +361,7 @@ def createUser():
     match opcEmpleado:
         case 1:
             codigo = str(random.randint(10000, 99999))
-            descripcion = "     Administrador"
+            descripcion = "Administrador"
             print("Tipo de empleado: " + descripcion)
             while True:
                 password = input("Cree una contraseña: ")
@@ -407,7 +509,7 @@ def empleados_contactos():
 def updateUser():
     print("   Actualizar Usuario: ")
     # buscar3 ya pide el número e imprime los datos
-    oldUser = crudUsers.buscar3() 
+    oldUser = crudUsers.buscar3()
     # preparar objetos relacionados
     oldTel = Telefono("", "", oldUser.get_numEmpleado())
     datos()
@@ -416,10 +518,14 @@ def updateUser():
         case 1:
             nombrePila = input("Ingrese su nombre de pila: ")
             apdPaterno = input("Ingrese su apellido paterno: ")
-            apdMaterno = input("Ingrese su apellido materno: ")
+            desMod3 = input("   Cuenta con segundo apellido?   (s/n): ").strip().lower()
+            if desMod3 != 's':
+                apdMaterno = None
+            else:
+                apdMaterno = input("Ingrese su apellido materno: ")
+                val.vNombre(apdMaterno)
             val.vNombre(nombrePila)
             val.vNombre(apdPaterno)
-            val.vNombre(apdMaterno)
             oldUser.set_nombrePila(nombrePila)
             oldUser.set_apdPaterno(apdPaterno)
             oldUser.set_apdMaterno(apdMaterno)

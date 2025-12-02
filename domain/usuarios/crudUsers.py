@@ -1,3 +1,6 @@
+from unittest import case
+
+import bcrypt
 from db.connU import conn
 from domain.usuarios.ClaseUsuarios import Usuario, TipoEmpleado, Telefono, Licencia, TipoLicencia
 from mysql.connector import Error, IntegrityError
@@ -63,7 +66,7 @@ def Create(newUser, newTipo, newTel, newTLic, newLic):
     ))
 
     idEmpleado = cursor.lastrowid
-    print("Numero de Empleado:", idEmpleado)
+    print("     Numero de Empleado:", idEmpleado)
     newTel.set_empleado(idEmpleado)
     newLic.set_empleado(idEmpleado)
     
@@ -105,6 +108,7 @@ def Create(newUser, newTipo, newTel, newTLic, newLic):
     miConn.conexion.commit()
     print("     ID Telefono", idTelefono)
     print("     Empleado Resgistrado con Exito")
+    input("\n   Presione ENTER para continuar...")
 
 
 def Create2(newUser, newTipo, newTel):
@@ -122,7 +126,7 @@ def Create2(newUser, newTipo, newTel):
         newTipo.get_descripcion()
     ))
 
-   # INSERT empleado
+    # INSERT empleado
     comando = """
     INSERT INTO empleado (nombrePila, apdPaterno, apdMaterno, tipo_empleado, activo, password_hash, email)
     VALUES (%s, %s, %s, %s, %s, %s, %s)
@@ -162,6 +166,7 @@ def Create2(newUser, newTipo, newTel):
     miConn.conexion.commit()
     print("     ID Telefono", idTelefono)
     print("     Empleado Resgistrado con Exito")
+    input("\n   Presione ENTER para continuar...")
 
 
 #Read select
@@ -518,3 +523,63 @@ def empleados_contactos(conexion):
             print("-" * 40)
 
     cursor.close()
+
+
+
+def RegistroLicencias(codigo, descripcion, nombrePila, apdPaterno, apdMaterno, telefono):
+    licencias()
+    opclicencia = val._IntRange("   Ingrese una la opcion de Licencia correcta: ", 1, 5)
+    match opclicencia:
+        case 1:
+            codigoLic = "A"
+            print("    Eligio la opcion de licencia " + codigoLic + ".")
+            descripcionLic = "Automovilista"
+        case 2:
+            codigoLic = "B"
+            print("    Eligio la opcion de licencia " + codigoLic + ".")
+            descripcionLic = "Taxis y Aplicaciones"
+        case 3:
+            codigoLic = "C"
+            print("    Eligio la opcion de licencia " + codigoLic + ".")
+            descripcionLic = "Transporte público"
+        case 4:
+            codigoLic = "D"
+            print("    Eligio la opcion de licencia " + codigoLic + ".")
+            descripcionLic = "Transporte de carga"
+        case 5:
+            codigoLic = "E"
+            print("    Eligio la opcion de licencia " + codigoLic + ".")
+            descripcionLic = "Servicios especializados y carga"
+            print()
+    while True:
+        numeroLicencia = input("   Ingrese su numero de licencia: ")
+        if val.valLicencia(numeroLicencia):
+            print("  Número de licencia válido.")
+            break
+        else:
+            print(
+                    "    Licencia inválida. Debe tener el formato: BC + 9 dígitos. Ejemplo: BC060759162"
+                )
+    exp = val.val_exp()
+    ven = val.val_ven(exp)
+    while True:
+            password = input("Cree una contraseña: ")
+            if val.validate_password(password):
+                password = password.encode('utf-8')
+                hashed = bcrypt.hashpw(password, bcrypt.gensalt())
+                print(" Contraseña Valida")
+                break
+            else:
+                print(" Contraseña Invalida. Intente de nuevo")
+                print(" La contraseña debe cumplir con los siguientes requisitos para ser válida:")
+                print(" 1. Tener al menos 8 caracteres.")
+                print(" 2. Incluir al menos una letra mayúscula (A-Z).")
+                print(" 3. Incluir al menos una letra minúscula (a-z).")
+                print(" 4. Incluir al menos un número (0-9).")
+    email = val.vEmail("Ingrese su Correo Electronico: ")
+    newTipo = TipoEmpleado(codigo, descripcion)
+    newUser = Usuario(None, nombrePila, apdPaterno, apdMaterno, newTipo.get_codigo(), 1, hashed, email)
+    newTel = Telefono(None, telefono ,None)
+    newTLic = TipoLicencia(None, codigoLic, descripcionLic)
+    newLic = Licencia(numeroLicencia, exp, ven, None, newTLic.get_codigoLic())
+    Create(newUser, newTipo, newTel, newTLic, newLic)
