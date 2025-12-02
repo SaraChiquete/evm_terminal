@@ -4,7 +4,7 @@ from utils.log import log
 
 class Conn:
     def __init__(self):
-        self.config = {
+        self.__config = {
             "host": "localhost",
             "port": 3306,
             "user": "root",
@@ -14,13 +14,14 @@ class Conn:
         }
 
     def conectar(self):
-        return mysql.connector.connect(**self.config)
+        return mysql.connector.connect(**self.__config)
         
     def comprobarConexion(self) -> bool:
         try:
             cnx = self.conectar()
             is_connected = cnx.is_connected()
             cnx.close()
+            
             return is_connected
         except Error:
             return False

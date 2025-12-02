@@ -3,7 +3,8 @@
 import interface.usuarios.Menu as _Usuarios
 from interface.usuarios import fUsuarios
 
-# import interface.bitacoras.Menu as _Bitacoras
+import interface.bitacoras.Menu as _Bitacoras
+import interface.bitacoras.fBitacora as Fbitacoras
 
 import interface.vehiculos.Menu as _Vehiculos
 #from controllers import fVehiculo
@@ -18,35 +19,34 @@ from interface.observacionymantenimiento import fObservacion
 import interface.Menu as Menu
 import interface.Val as Val
 
-import os
+from utils.limpiar import limpiar
 
-os.system("cls")
-print()
+limpiar()
 
 opc1 = 100
 while True and opc1 != 9:
     opc1 = Val._SelectMenu("    Seleccione una opción: ", Menu.pricipal, 1, 9)
 
     match opc1:
-        # case 1:
-        #     opc11 = 100
+        case 1:
+            opc11 = 100
 
-        #     while opc11 != 6:
-        #         opc11 = Val._SelectMenu("    Opcion: ", _Bitacoras.principal, 1, 6)
-        #         match opc11:
-        #             case 1:
-        #                 bitacora_controller.lista()
-        #             case 2:
-        #                 bitacora_controller.registrarSalida()
-        #             case 3:
-        #                 bitacora_controller.registrarEntrada()
-        #             case 4:
-        #                 bitacora_controller.modificar()
-        #             case 5:
-        #                 bitacora_controller.eliminar()
-        #             case 6:
-        #                 print("   Saliendo...")
-        #                 break
+            while opc11 != 6:
+                opc11 = Val._SelectMenu("    Opcion: ", _Bitacoras.principal, 1, 6)
+                match opc11:
+                    case 1:
+                        Fbitacoras.lista()
+                    case 2:
+                        Fbitacoras.registrarSalida()
+                    case 3:
+                        Fbitacoras.registrarEntrada()
+                    case 4:
+                        Fbitacoras.modificar()
+                    case 5:
+                        Fbitacoras.eliminar()
+                    case 6:
+                        print("   Saliendo...")
+                        break
 
     #    case 2:
     #        opc12 = 100

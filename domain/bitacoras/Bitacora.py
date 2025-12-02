@@ -1,5 +1,6 @@
 from datetime import datetime
 
+
 class Registro:
     # Clase Registro
     # Su proposito es ser utilizada como un registro de
@@ -57,8 +58,6 @@ class Bitacora:
         self.__kilometrajeTotal = "Sin registrar"
         self.__gasolinaConsumida =  "Sin registrar"
         self.__gasolinaRendimiento = "Sin registrar"
-        self.__salidaBool = ""
-        self.__entradaBool = ""
 
     def registrar_salida(self, kilometraje, gasolina):
         self.__salida = Registro()
@@ -96,12 +95,6 @@ class Bitacora:
 
     def set_vehiculo(self, vehiculo):
         self.__vehiculo = vehiculo
-        
-    def set_entradaBool(self, entradaBool):
-        self.__entradaBool = entradaBool
-        
-    def set_salidaBool(self, salidaBool):
-        self.__salidaBool = salidaBool
 
     def get_numControl(self):
         return self.__numControl
@@ -135,12 +128,6 @@ class Bitacora:
     
     def get_gasolinaConsumida(self):
         return self.__gasolinaConsumida
-    
-    def get_entradaBool(self):
-        return self.__entradaBool
-    
-    def get_salidaBool(self):
-        return self.__salidaBool
     
     def calcular_gasolinaConsumida(self):
         self.set_gasolinaConsumida(self.__salida.get_gasolina() - self.__entrada.get_gasolina())

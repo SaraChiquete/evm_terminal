@@ -1,3 +1,5 @@
+from utils.limpiar import limpiar
+
 def _SelectMenu(msg: str, menu, inf: int, sup: int):
     """
     Imprime un menu mediante una lista.
@@ -14,6 +16,7 @@ def _SelectMenu(msg: str, menu, inf: int, sup: int):
         - int: Numero entero ingresado. Entre inf y sup.
     """
     while True:
+        limpiar()
         menu()
         opc = _IntRange(msg, inf, sup)
         print()
@@ -39,9 +42,11 @@ def _IntRange(msg: str, inf: int, sup: int):
 
     if not opc.isdigit():
         print()
-        print("   Solo numeros enteros.")
+        print("    Solo numeros enteros. Presiona ENTER para continuar...")
+        input()
     elif opc.isdigit() and inf <= int(opc) <= sup:
         return int(opc)
     elif opc.isdigit() and int(opc) > sup or int(opc) < inf:
         print()
-        print(f"Fuera de rango. Rango: {inf} - {sup}")
+        print(f"    Fuera de rango. Rango: {inf} - {sup}. Presiona ENTER para continuar...")
+        input()
