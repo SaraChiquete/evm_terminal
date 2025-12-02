@@ -10,6 +10,6 @@ def pricipal():
     print("    4. Mantenimiento")
     print("--------------------------------------------")
     print("    5. Observaciones")
-    print("--------------------------------------------")
+    print("    6. Solicitudes")
     print("    9. Salir")
     print("--------------------------------------------")

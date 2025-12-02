@@ -1,12 +1,17 @@
-from domain.solicitudes import crudSolicitudes
+from domain.solicitudes import crudSolicitudes 
 from domain.solicitudes.ClaseSolicitudes import Solicitud
-from solicitudes import val
+from interface.solicitudes import valSolicitudes as val
 from db.connV import conn
 
 
 def listarSolicitudes():
     print("- - - Listado de Solicitudes - - -")
     crudSolicitudes.listarSolicitudes()
+    
+def VerEstado():
+    print("- - - Listado de Solicitudes - - -")
+    crudSolicitudes.listarEstado()
+
     
     
 def SolicitarDatos():

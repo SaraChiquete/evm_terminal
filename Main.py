@@ -10,15 +10,20 @@ import interface.vehiculos.Menu as _Vehiculos
 import interface.vehiculos.fVehiculo as fVehiculo
 #from controllers import fVehiculo
 
+from interface.vehiculos import fVehiculo
+
 from db.conn import conn
 miConn = conn()
 #from interface.observacionymantenimiento import menu
 from interface.observacionymantenimiento import fMantenimiento
 from interface.observacionymantenimiento import fObservacion
 #from interface.observacionymantenimiento import val
-
+from interface.vehiculos import Menu as menuv
+from interface.solicitudes import Menu as menus
 import interface.Menu as Menu
 import interface.Val as Val
+
+from interface.solicitudes import fSolicitudes
 
 from utils.limpiar import limpiar
 
@@ -94,6 +99,25 @@ while True and opc1 != 9:
         case 5: # OBSERVACIONES
     # Llama al submenú completo de observaciones
             fObservacion.menuObservaciones()
+        
+        case 6:
+            opc2 = 0
+            while opc2 != 5:
+                opc2 = Val.vOpciones("Ingrese una opción: ", 1, 5, menus.menuSolicitudes)
+
+                match opc2:
+                    case 1:
+                        fSolicitudes.listarSolicitudes()
+                    case 2:
+                        fSolicitudes.SolicitarDatos()
+                    case 3:
+                        fSolicitudes.VerEstado() 
+                    case 4:
+                        fSolicitudes.modificarAsuntoSolicitud()
+                    case 5:
+                        fSolicitudes.modificarEstadoSolicitud()
+                    case 6:
+                        print("Regresando...")
         
         case 9:
             print("   Saliendo...")
