@@ -12,6 +12,7 @@ def listarVehiculos():
 
     if not lista:
         print("No hay vehículos registrados.")
+        input("\n   Presione ENTER para continuar...")
         return []
 
     # Encabezado formateado
@@ -29,6 +30,7 @@ def listarVehiculos():
               f"{disponibilidad:<15} {marca:<12} {modelo:<12} {lic_req:<15}")
 
     print("-" * 120)
+    input("\n   Presione ENTER para continuar...")
 
     return lista
 
@@ -56,8 +58,10 @@ def agregarVehiculo(nuevoVehiculo):
     lastid = miConn.registrar(comando)
     if lastid:
         print(" Error al guardar el vehículo.")
+        input("\n   Presione ENTER para continuar...")
     else:
         print(" Vehículo guardado exitosamente.")
+        input("\n   Presione ENTER para continuar...")
 
 
     return lastid
@@ -84,11 +88,13 @@ def tipolicencia():
 
     if not lista:
         print("No hay vehículos registrados.")
+        input("\n   Presione ENTER para continuar...")
         return []
 
     # Encabezado
     print(f"{'Matrícula':<12} {'Marca':<15} {'Modelo':<15} {'Propósito':<25} {'Tipo Licencia':<20}")
     print("-" * 90)
+    input("\n   Presione ENTER para continuar...")
 
     # Filas
     for fila in lista:
@@ -114,10 +120,13 @@ def borrarVehiculo(existeVehiculo):
 
     if contador == 1:
         print("Vehículo dado de baja correctamente (disponibilidad = 2).")
+        input("\n   Presione ENTER para continuar...")
     elif contador == 0:
         print("Vehículo no encontrado.")
+        input("\n   Presione ENTER para continuar...")
     else:
         print("Error al actualizar la disponibilidad.")
+        input("\n   Presione ENTER para continuar...")
 
 
 
@@ -141,10 +150,13 @@ def modificarVehiculo(existeVehiculo):
 
     if contador == 1:
         print("Vehículo modificado correctamente")
+        input("\n   Presione ENTER para continuar...")
     elif contador == 0:
         print("Vehículo no encontrado")
+        input("\n   Presione ENTER para continuar...")
     else:
         print("Error al modificar el vehículo")
+        input("\n   Presione ENTER para continuar...")
 
  
 def mostarmarcaymodelo():
@@ -166,6 +178,7 @@ def mostarmarcaymodelo():
 
     print(f"{'Codigo':<10} {'Marca':<20} {'Codigo':<12} {'Modelo':<20}")
     print("-"*65)
+    input("\n   Presione ENTER para continuar...")
 
     for fila in lista:
         cod_marca, marca, cod_modelo, modelo = fila
@@ -181,10 +194,12 @@ def tipli():
 
     if not lista:
         print("No hay registros")
+        input("\n   Presione ENTER para continuar...")
         return
 
     print(f"{'Codigo':<10} {'Descripcion':<30}")
     print("-"*45)
+    input("\n   Presione ENTER para continuar...")
 
     for numero, codigo, descripcion in lista:
         print(f"{codigo:<10} {descripcion:<30}")
@@ -199,11 +214,13 @@ def numsemoma():
 
     if not lista:
         print("No hay registros")
+        input("\n   Presione ENTER para continuar...")
         return
 
     print(f"{'NumSerie':<20} {'Marca':<20} {'Modelo':<20}")
     print("-" * 60)
-
+    input("\n   Presione ENTER para continuar...")
+    
     for numSerie, marca, modelo in lista:
         print(f"{numSerie:<20} {marca:<20} {modelo:<20}")
 
@@ -221,10 +238,12 @@ def nummat():
 
     if not lista:
         print("No hay registros")
+        input("\n   Presione ENTER para continuar...")
         return
 
     print(f"{'NumSerie':<20} {'Matrícula':<20}")
     print("-" * 40)
+    input("\n   Presione ENTER para continuar...")
 
     for numSerie, matricula in lista:
         print(f"{numSerie:<20} {matricula:<20}")
