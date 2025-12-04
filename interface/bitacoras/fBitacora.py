@@ -3,16 +3,19 @@ from domain.bitacoras.Bitacora import Bitacora
 import interface.bitacoras.Val as Val
 from utils.limpiar import limpiar
 
+
 def lista():
     while True:
         limpiar()
 
         titulo = "Listado de bitacoras"
         espacios = int((64 - len(titulo)) / 2)
-        print("-"*espacios + titulo + "-"*espacios)
+        print("-" * espacios + titulo + "-" * espacios)
         print()
 
-        print(f"{'  N°':<6}{'Asunto':<15}{'Destino':<15}{'Fecha Salida':<15}{'Fecha Entrada':<15}\n")
+        print(
+            f"{'  N°':<6}{'Asunto':<15}{'Destino':<15}{'Fecha Salida':<15}{'Fecha Entrada':<15}\n"
+        )
 
         datos = CRUD.listaGeneral()
         if datos == []:
@@ -26,13 +29,15 @@ def lista():
 
                 asunto = asunto[0:8] + ("." * (12 - 8))
                 destino = destino = destino[0:8] + ("." * (12 - 8))
-                fechaEntrada = fechaEntrada if fechaEntrada is not None  else "---"
+                fechaEntrada = fechaEntrada if fechaEntrada is not None else "---"
                 fechaSalida = fechaSalida if fechaSalida is not None else "---"
 
-                print(f"  {id:<4}{asunto:<15}{destino:<15}{fechaSalida:<15}{fechaEntrada:<15}")
+                print(
+                    f"  {id:<4}{asunto:<15}{destino:<15}{fechaSalida:<15}{fechaEntrada:<15}"
+                )
 
         print()
-        print("-"*64)
+        print("-" * 64)
 
         opc = None
 
@@ -45,32 +50,73 @@ def lista():
             opc = Val.IntRange("\nOpcion: ", 0, 2)
 
             print()
-            if opc == 0: break;
+            if opc == 0: break
         if opc == 1:
-            titulo = "Informacion de bitacora"
+            titulo = "Buscar bitacora"
             espacios = int((64 - len(titulo)) / 2)
-            print("-"*espacios + titulo + "-"*espacios)
-            
+            print("-" * espacios + titulo + "-" * espacios)
+
             elec = Val.IntListRange("Numero de bitacora: ", lista_id)
             bit = CRUD.leerCompleta(elec)
-            
-            print()
-            print("-"*64)
-            
-            print("Solicitante: ", bit[0][0])
-            print("Autorizado por: ", bit[0][1])
-            
-            print("-"*64)
-            print("Acciones:")
-            print("1. Archivar")
-            print("2. Modificar")
-            print("0. Salir")
 
-            opc = Val.IntRange("Opcion: ", 0, 2)
+            print()
+
+            if bit:
+                row = bit[0]
+                empleados_lista = []
+
+                for fila in bit:
+                    nombre_empleado = fila[12]
+                    if nombre_empleado:
+                        empleados_lista.append(nombre_empleado)
+
+                titulo = f"Informacion bitacora N.{elec}"
+                espacios = int((64 - len(titulo)) / 2)
+                print("-" * espacios + titulo + "-" * espacios)
+
+                print(f" Asunto:      {row[3]}")
+                print(f" Destino:     {row[2]}")
+                print("-" * 64)
+                print(f" Solicitante: {row[0]}")
+                print(f" Autorizado por:    {row[1]}")
+                print(
+                    f" Vehículo:    {row[14]}, {row[15]} (Matrícula: {row[13]})"
+                )
+
+                print("-" * 64)
+                print("[Acompañantes]:")
+                if empleados_lista:
+                    for emp in empleados_lista:
+                        print(f"> {emp}")
+                else:
+                    print("   (Sin acompañantes registrados)")
+
+                print("-" * 64)
+
+                print(" [SALIDA]:")
+                print(f" Fecha y hora de salida:  {row[4]} - {row[5]}")
+                print(f" Kilometraje: {row[6]} km")
+                print(f" Gasolina:    {row[7]} L")
+
+                print("-" * 64)
+
+                print(" [ENTRADA]")
+                if row[8] is not None:
+                    print(f" Fecha y hora de entrada:  {row[8]} - {row[9]}")
+                    print(f" Kilometraje: {row[10]} km")
+                    print(f" Gasolina:    {row[11]} L")
+                else:
+                    print(f" Fecha y hora de entrada:  Pendiente....")
+                    print(f" Kilometraje: Pendiente....")
+                    print(f" Gasolina:    Pendiente....")
+
+            print("-" * 64)
+            input("Presione ENTER para continuar...")
+
         if opc == 2:
             titulo = "Archivar bitacora"
             espacios = int((64 - len(titulo)) / 2)
-            print("-"*espacios + titulo + "-"*espacios)
+            print("-" * espacios + titulo + "-" * espacios)
             elec = Val.IntListRange("Numero de bitacora: ", lista_id)
             archivar_decision = Val.Decision("Archivar bitacora? (S / N): ")
             if archivar_decision:
@@ -78,7 +124,7 @@ def lista():
             else:
                 print("Bitacora no archivada.")
             input("Presione enter para continuar...")
-    
+
 
 def registrarSalida():
     print("\n-- Registrar salida --")
