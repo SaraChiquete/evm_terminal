@@ -4,7 +4,7 @@ from domain.vehiculos import ClaseVehiculo as Vehiculo
 def listarVehiculos():
     miConn = conn()
     comando = """
-        SELECT v.numSerie, v.matricula, v.proposito, v.fechaAdquisicion, v.disponibilidad, v.marca, v.modelo, tp.codigo as licencia_requerida FROM vehiculo as v inner join tipo_licencia as tp on tp.numero = v.licencia_requerida;
+        SELECT v.numSerie, v.matricula, v.proposito, v.fechaAdquisicion, v.disponibilidad, v.marca, v.modelo, tp.codigo AS licencia_requerida FROM vehiculo AS v INNER JOIN tipo_licencia AS tp ON tp.numero = v.licencia_requerida;
     """
     lista = miConn.lista(comando)
     
@@ -36,21 +36,34 @@ def listarVehiculos():
 def agregarVehiculo(nuevoVehiculo):
     miConn = conn()
 
+    # Mapear A–F a 1–6
+    mapa_licencias = {
+        "A": 1,
+        "B": 2,
+        "C": 3,
+        "D": 4,
+        "E": 5,
+        "F": 6
+    }
+
+    licencia_letra = nuevoVehiculo.get_tipo_licencia()
+    licencia_num = mapa_licencias[licencia_letra]
+
     aux = """
-        INSERT INTO vehiculo 
-        (numSerie, matricula, proposito, fechaAdquisicion, disponibilidad,
-         marca, modelo, licencia_requerida)
-        VALUES ('{0}', '{1}', '{2}', '{3}', 1, '{4}', '{5}', '{6}')
+    INSERT INTO vehiculo 
+    (numSerie, matricula, proposito, fechaAdquisicion, disponibilidad,
+     marca, modelo, licencia_requerida)
+    VALUES ('{0}', '{1}', '{2}', '{3}', 1, '{4}', '{5}', {6})
     """
 
     comando = aux.format(
-        nuevoVehiculo.get_num_serie(),   
-        nuevoVehiculo.get_matricula(),       
-        nuevoVehiculo.get_proposito(),       
-        nuevoVehiculo.get_fecha_adquision(), 
-        nuevoVehiculo.get_marca(),           
-        nuevoVehiculo.get_modelo(),          
-        nuevoVehiculo.get_tipo_licencia(),   
+        nuevoVehiculo.get_num_serie(),
+        nuevoVehiculo.get_matricula(),
+        nuevoVehiculo.get_proposito(),
+        nuevoVehiculo.get_fecha_adquision(),
+        nuevoVehiculo.get_marca(),
+        nuevoVehiculo.get_modelo(),
+        licencia_num  
     )
 
     lastid = miConn.registrar(comando)
@@ -59,8 +72,8 @@ def agregarVehiculo(nuevoVehiculo):
     else:
         print(" Vehículo guardado exitosamente.")
 
-
     return lastid
+
 
 def tipolicencia():
     miConn = conn()  
@@ -113,7 +126,7 @@ def borrarVehiculo(existeVehiculo):
     contador = miConn.actualizar(comando)
 
     if contador == 1:
-        print("Vehículo dado de baja correctamente (disponibilidad = 2).")
+        print("Vehículo dado de baja correctamente (Baja = 2).")
     elif contador == 0:
         print("Vehículo no encontrado.")
     else:
