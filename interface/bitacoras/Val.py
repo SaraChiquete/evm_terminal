@@ -127,9 +127,9 @@ def Decision(msg):
         if val.isdigit():
             print("Solo texto")
         else:
-            if val.lower() == "si":
+            if val.lower() == "si" or val.lower() == "s":
                 return True
-            elif val.lower() == "no":
+            elif val.lower() == "no" or val.lower() == "n":
                 return False
             else:
-                print("Solo SI / NO")
+                print("Solo SI/NO o S/N.")

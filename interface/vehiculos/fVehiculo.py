@@ -30,7 +30,6 @@ def SolicitarDatos():
     print("|{:^63}|".format("AGREGAR VEHÍCULO"))
     print("+" + "-"*63 + "+")
 
-    
     numSerie = val.vNumSerie("Ingresa el numero de serie del vehiculo: ")
     matricula = val.vMatricula("Ingresa la matricula del vehiculo: ") 
     marca = val.vDatos("Ingresa el codigo de la marca del vehiculo: ") 

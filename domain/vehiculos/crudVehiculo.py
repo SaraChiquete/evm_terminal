@@ -175,7 +175,7 @@ def mostarmarcaymodelo():
     
 def tipli():
     miConn = conn()
-    comando = "SELECT tl.codigo, tl.descripcion FROM tipo_licencia AS tl;"
+    comando = "SELECT tl.numero, tl.codigo, tl.descripcion FROM tipo_licencia AS tl;"
     
     lista = miConn.lista(comando)
 
@@ -186,7 +186,7 @@ def tipli():
     print(f"{'Codigo':<10} {'Descripcion':<30}")
     print("-"*45)
 
-    for codigo, descripcion in lista:
+    for numero, codigo, descripcion in lista:
         print(f"{codigo:<10} {descripcion:<30}")
 
     print("-"*45)

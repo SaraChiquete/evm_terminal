@@ -42,12 +42,19 @@ def lista():
             print("2. Archivar bitacora")
             print("0. Salir")
 
-            opc = Val.IntRange("Opcion: ", 0, 2)
+            opc = Val.IntRange("\nOpcion: ", 0, 2)
 
+            print()
             if opc == 0: break;
         if opc == 1:
+            titulo = "Informacion de bitacora"
+            espacios = int((64 - len(titulo)) / 2)
+            print("-"*espacios + titulo + "-"*espacios)
+            
             elec = Val.IntListRange("Numero de bitacora: ", lista_id)
             bit = CRUD.leerCompleta(elec)
+            
+            print()
             print("-"*64)
             
             print("Solicitante: ", bit[0][0])
@@ -61,8 +68,16 @@ def lista():
 
             opc = Val.IntRange("Opcion: ", 0, 2)
         if opc == 2:
-            pass            
-            
+            titulo = "Archivar bitacora"
+            espacios = int((64 - len(titulo)) / 2)
+            print("-"*espacios + titulo + "-"*espacios)
+            elec = Val.IntListRange("Numero de bitacora: ", lista_id)
+            archivar_decision = Val.Decision("Archivar bitacora? (S / N): ")
+            if archivar_decision:
+                print("Bitacora archivada.")
+            else:
+                print("Bitacora no archivada.")
+            input("Presione enter para continuar...")
     
 
 def registrarSalida():
